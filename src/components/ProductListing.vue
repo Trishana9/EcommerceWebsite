@@ -1,10 +1,11 @@
 <template>
 <section>
+    <NavBar/>
     <main>
 		<div class="mt-28 mx-36 sm:mx-10">
             <div class="productlist grid grid-cols-4 gap-5 sm:grid-cols-2 " id="productlist">
                 <div v-for="(product, index) in paginatedItems" :key="index">
-                    <div class="border flex flex-col justify-center py-8 cursor-pointer">
+                    <div class="border flex flex-col justify-center py-8 cursor-pointer" @click="displayDetail(product)">
                         <div class="flex justify-center items-center">
                             <img :src="product.thumbnail" class="h-64 w-80">
                         </div>
@@ -32,6 +33,7 @@
 </template>
 <script>
 import axios from 'axios'
+import NavBar from './NavBar.vue'
 export default {
   name: "ProductCard",
   data()
@@ -41,7 +43,11 @@ export default {
           currentPage: 0,
           perPage: 12,
           paginatedItems:[],
+          page_count: 0
       }
+  },
+  components: {
+    NavBar
   },
   methods:{
     calculateDiscoutedAmount(product){
@@ -62,6 +68,13 @@ export default {
                 console.log('current: ',this.currentPage)
                 this.displaylist()
     },
+    displayDetail(product){
+        console.log(product.id);
+        let id = product.id;
+        const url = "/productdetail/"+id;
+        window.location.href = url;
+
+            }
 
   },
   created()
