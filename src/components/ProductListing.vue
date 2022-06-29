@@ -3,7 +3,7 @@
     <main>
 		<div class="mt-28 mx-36 sm:mx-10">
             <div class="productlist grid grid-cols-4 gap-5 sm:grid-cols-2 " id="productlist">
-                <div v-for="product in productList" :key="product">
+                <div v-for="(product, index) in paginatedItems" :key="index">
                     <div class="border flex flex-col justify-center py-8 cursor-pointer">
                         <div class="flex justify-center items-center">
                             <img :src="product.thumbnail" class="h-64 w-80">
@@ -17,6 +17,11 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="pagination flex  float-right my-3" id="pagination">
+                <div v-for= "(p, index) in page_count" :key="index">
+                    <button class="bg-gray-300 mx-2 h-10 w-10 hover:bg-green-300" @click="paginationButton(index)">{{p}}</button>
                 </div>
             </div>
         </div>
@@ -33,20 +38,40 @@ export default {
   {
       return{
           productList:[],
-          current_page: 1,
-          product_per_page: 20,
+          currentPage: 0,
+          perPage: 12,
+          paginatedItems:[],
       }
   },
   methods:{
-      calculateDiscoutedAmount(product){
+    calculateDiscoutedAmount(product){
           return (product.price-((product.price*product.discountPercentage)/100)).toFixed(2)
-      }
+      },
+
+    displaylist(){
+                let start = this.perPage * this.currentPage;
+                let end = start + this.perPage;
+                this.paginatedItems =  this.productList.slice(start, end);
+                console.log(this.paginatedItems)
+            },
+    setupPagination(){
+                this.page_count = Math.ceil(this.productList.length / this.perPage);
+            },
+    paginationButton(page){
+                this.currentPage=page;
+                console.log('current: ',this.currentPage)
+                this.displaylist()
+    },
 
   },
   created()
   {
       axios.get('https://dummyjson.com/products')
-      .then((response) => this.productList = response.data.products)
+      .then((response) => {
+          this.productList = response.data.products
+          this.displaylist()
+          this.setupPagination()
+      })
       .catch(error => console.log(error))
   }
 };
