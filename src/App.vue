@@ -1,14 +1,14 @@
 <template>
-  <ProductListing/>
+  <NavBar/>
 </template>
 
 <script>
-import ProductListing from './components/ProductListing.vue'
+import NavBar from './components/NavBar.vue'
 
 export default {
   name: 'App',
   components: {
-    ProductListing
+    NavBar
   }
 }
 </script>
