@@ -6,7 +6,20 @@
             <div class="relative mx-5">
                 <div>
                     <div class="flex">
-                        <img :src="productList.thumbnail" class="h-80 w-96">
+                        <swiper
+                            :modules="modules"
+                            :slides-per-view="1"
+                            :space-between="50"
+                            navigation
+                            :pagination="{ clickable: true }"
+                            @swiper="onSwiper"
+                            @slideChange="onSlideChange"
+                            class="h-80 w-96"  
+                        >
+                            <swiper-slide v-for="(pro,index) in productList.images" :key="index"><img :src="pro" class="h-80 w-96"/></swiper-slide>
+                            
+                        </swiper>
+                        
                     </div>
                 </div>
             </div>
@@ -45,21 +58,39 @@
 import axios from 'axios'
 import NavBar from './NavBar.vue'
 import {useRoute} from 'vue-router';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+
+  // Import Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue';
+
+  // Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 export default {
     name: "ProductDetail",
     data()
     {
         return{
             productList:[],
+            modules: [Navigation, Pagination, Scrollbar, A11y],
         }
     },
      components: {
-        NavBar
+        NavBar,
+        Swiper,
+        SwiperSlide,
     },
     methods:{
-    calculateDiscoutedAmount(product){
+      calculateDiscoutedAmount(product){
           return (product.price-((product.price*product.discountPercentage)/100)).toFixed(2)
       },
+      onSwiper(swiper){
+        console.log(swiper);
+      },
+      onSlideChange(){
+        console.log('slide change');
+      }
     },
     created(){
         const route = useRoute();
