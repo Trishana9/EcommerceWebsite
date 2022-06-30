@@ -16,12 +16,7 @@
                 <div>
                     <p class="text-[12px]"><b>Brand</b> | {{productList.brand}}</p>
                 </div>
-
-                <div class="stars-outer">
-                    <div class="stars-inner" style="width: 68%;">
-                    </div>
-                    <span class="number-rating">{{productList.rating}}</span>
-                </div>
+                <star-rating :rating="productList.rating" :read-only="true" :increment="0.01" star-size="25"></star-rating>
 
                 <p class="font-bold text-emerald-500 text-xl mt-5">Rs.{{calculateDiscoutedAmount()}}</p>
 
@@ -45,6 +40,7 @@
 import axios from 'axios'
 import NavBar from './NavBar.vue'
 import {useRoute} from 'vue-router';
+import StarRating from 'vue-star-rating'
 export default {
     name: "ProductDetail",
     data()
@@ -54,7 +50,8 @@ export default {
         }
     },
      components: {
-        NavBar
+        NavBar,
+        StarRating
     },
     methods:{
      calculateDiscoutedAmount(){
