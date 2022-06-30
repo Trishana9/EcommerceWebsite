@@ -11,7 +11,7 @@
                         </div>
                         <div class="px-10">
                             <p>{{product.title}}</p>
-                            <p class="font-bold text-emerald-500">Rs.{{calculateDiscoutedAmount(product)}}</p>
+                            <p class="font-bold text-emerald-500">Rs.{{calculateDiscoutedAmount(product.price,product.discountPercentage)}}</p>
                             <div class="flex">
                                 <p class="text-gray-400 mr-3 line-through text-sm">{{product.price}}</p>
                                 <p class="text-sm">-{{product.discountPercentage}}%</p>
@@ -50,8 +50,8 @@ export default {
     NavBar
   },
   methods:{
-    calculateDiscoutedAmount(product){
-          return (product.price-((product.price*product.discountPercentage)/100)).toFixed(2)
+    calculateDiscoutedAmount(price,discountPercentage){
+          return (price-((price*discountPercentage)/100)).toFixed(2)
       },
 
     displaylist(){
@@ -80,8 +80,8 @@ export default {
   created()
   {
       axios.get('https://dummyjson.com/products')
-      .then((response) => {
-          this.productList = response.data.products
+      .then(({data}) => {
+          this.productList = data.products
           this.displaylist()
           this.setupPagination()
       })
