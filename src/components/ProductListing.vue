@@ -57,7 +57,7 @@ export default {
   },
   created()
   {
-      axios.get('https://dummyjson.com/products')
+      axios.get()
       .then(({data}) => {
           this.productList = data.products
           this.displayProductList()
