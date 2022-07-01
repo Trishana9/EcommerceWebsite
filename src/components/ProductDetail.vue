@@ -6,20 +6,9 @@
             <div class="relative mx-5">
                 <div>
                     <div class="flex">
-                        <swiper
-                            :modules="modules"
-                            :slides-per-view="1"
-                            :space-between="50"
-                            navigation
-                            :pagination="{ clickable: true }"
-                            class="h-80 w-96"  
-                        >
-                            <swiper-slide v-for="(pro,index) in productList.images" :key="index"><img :src="pro" class="h-80 w-96"/></swiper-slide>
-                            
-                        </swiper>
-                        
+                        <SwiperCard :productImages="productList.images" class="h-80 w-96" />                          
                     </div>
-                </div>
+               </div>
             </div>
             <div class="ml-10 sm:ml-0">
                 <p class="text-xl font-bold">{{productList.title}}</p>
@@ -51,31 +40,21 @@
 <script>
 import axios from 'axios'
 import NavBar from './NavBar.vue'
+import SwiperCard from './SwiperCard.vue'
 import {useRoute} from 'vue-router';
 import StarRating from 'vue-star-rating'
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-
-  // Import Swiper Vue.js components
-import { Swiper, SwiperSlide } from 'swiper/vue';
-
-  // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
 export default {
     name: "ProductDetail",
     data()
     {
         return{
             productList:[],
-            modules: [Navigation, Pagination, Scrollbar, A11y],
         }
     },
      components: {
         NavBar,
         StarRating,
-        Swiper,
-        SwiperSlide,
+        SwiperCard,
     },
     methods:{
       calculateDiscoutedAmount(){
@@ -83,9 +62,7 @@ export default {
       },
     },
     created(){
-        const route = useRoute();
-        console.warn("route:",route.params.id)
-        let id =route.params.id
+        let id =useRoute().params.id
         axios.get('https://dummyjson.com/products/'+id)
         .then(({data}) => {
             this.productList = data

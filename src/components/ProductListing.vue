@@ -7,8 +7,8 @@
                 <ProductCard v-for="(product, index) in paginatedItems" :key="index" :product="product"/>
             </div>
             <div class="pagination flex  float-right my-3" id="pagination">
-                <div v-for= "(p, index) in page_count" :key="index">
-                    <button class="bg-gray-300 mx-2 h-10 w-10 hover:bg-green-300" @click="paginationButton(index)">{{p}}</button>
+                <div v-for= "(pageNumber, index) in pageCount" :key="index">
+                    <button class="bg-gray-300 mx-2 h-10 w-10 hover:bg-green-300" @click="paginationButton(index)">{{pageNumber}}</button>
                 </div>
             </div>
         </div>
@@ -30,7 +30,7 @@ export default {
           currentPage: 0,
           perPage: 12,
           paginatedItems:[],
-          page_count: 0
+          pageCount: 0
       }
   },
   components: {
@@ -46,7 +46,7 @@ export default {
     },
 
     setupPagination(){
-        this.page_count = Math.ceil(this.productList.length / this.perPage);
+        this.pageCount = Math.ceil(this.productList.length / this.perPage);
     },
 
     paginationButton(page){
@@ -67,4 +67,3 @@ export default {
   }
 };
 </script>
-
