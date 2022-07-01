@@ -12,8 +12,6 @@
                             :space-between="50"
                             navigation
                             :pagination="{ clickable: true }"
-                            @swiper="onSwiper"
-                            @slideChange="onSlideChange"
                             class="h-80 w-96"  
                         >
                             <swiper-slide v-for="(pro,index) in productList.images" :key="index"><img :src="pro" class="h-80 w-96"/></swiper-slide>
@@ -32,7 +30,7 @@
 
                 <star-rating :rating="productList.rating" :read-only="true" :increment="0.01" star-size="25"></star-rating>
 
-                <p class="font-bold text-emerald-500 text-xl mt-5">Rs.{{calculateDiscoutedAmount(productList)}}</p>
+                <p class="font-bold text-emerald-500 text-xl mt-5">Rs.{{calculateDiscoutedAmount()}}</p>
 
                 <div class="flex">
                     <p class="text-gray-500 mr-3 line-through text-sm">Rs.{{productList.price}}</p>
@@ -80,23 +78,17 @@ export default {
         SwiperSlide,
     },
     methods:{
-      calculateDiscoutedAmount(product){
-          return (product.price-((product.price*product.discountPercentage)/100)).toFixed(2)
+      calculateDiscoutedAmount(){
+          return (this.productList.price-((this.productList.price*this.productList.discountPercentage)/100)).toFixed(2)
       },
-      onSwiper(swiper){
-        console.log(swiper);
-      },
-      onSlideChange(){
-        console.log('slide change');
-      }
     },
     created(){
         const route = useRoute();
         console.warn("route:",route.params.id)
         let id =route.params.id
         axios.get('https://dummyjson.com/products/'+id)
-        .then((response) => {
-            this.productList = response.data
+        .then(({data}) => {
+            this.productList = data
         })
         .catch(error => console.log(error))
     }
