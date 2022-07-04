@@ -63,7 +63,7 @@ export default {
     },
     created(){
         let id =useRoute().params.id
-        axios.get('/'+id)
+        axios.get(`/${id}`)
         .then(({data}) => {
             this.productList = data
         })
