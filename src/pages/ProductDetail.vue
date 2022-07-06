@@ -39,8 +39,8 @@
 
 <script>
 import axios from 'axios'
-import NavBar from './NavBar.vue'
-import SwiperCard from './SwiperCard.vue'
+import NavBar from '../components/NavBar.vue'
+import SwiperCard from '../components/SwiperCard.vue'
 import {useRoute} from 'vue-router';
 import StarRating from 'vue-star-rating'
 export default {
@@ -63,7 +63,7 @@ export default {
     },
     created(){
         let id =useRoute().params.id
-        axios.get(`/${id}`)
+        axios.get(`/products/${id}`)
         .then(({data}) => {
             this.productList = data
         })
