@@ -17,7 +17,10 @@
 
 export default({
     props:{
-       product: {},
+       product: {
+           required: true,
+           type: Object
+       },
     },
     methods:{
     calculateDiscoutedAmount(product){

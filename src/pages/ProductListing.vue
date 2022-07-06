@@ -8,7 +8,7 @@
             </div>
             <div class="pagination flex  float-right my-3" id="pagination">
                 <div v-for= "(pageNumber, index) in pageCount" :key="index">
-                    <button class="bg-gray-300 mx-2 h-10 w-10 hover:bg-green-300" @click="paginationButton(index)">{{pageNumber}}</button>
+                    <button  class="bg-gray-300 mx-2 h-10 w-10 hover:bg-green-300" @click="paginationButton(index)">{{pageNumber}}</button>
                 </div>
             </div>
         </div>
@@ -19,8 +19,8 @@
 </template>
 <script>
 import axios from 'axios'
-import NavBar from './NavBar.vue'
-import ProductCard from './ProductCard.vue'
+import NavBar from '../components/NavBar.vue'
+import ProductCard from '../components/ProductCard.vue'
 export default {
   name: "ProductListing",
   data()
@@ -51,13 +51,14 @@ export default {
 
     paginationButton(page){
         this.currentPage=page;
-        this.displayProductList()
+        const url = `/${this.currentPage+1}`;
+        window.location.href = url;
     },
 
   },
   created()
   {
-      axios.get()
+      axios.get('/products')
       .then(({data}) => {
           this.productList = data.products
           this.displayProductList()
