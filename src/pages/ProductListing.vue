@@ -1,8 +1,9 @@
 <template>
 <section>
     <NavBar/>
+    <Loader :active="loaderActive" message="Please wait 5 seconds" />
     <main>
-		<div class="mt-28 mx-36 sm:mx-10">
+		<div class="mt-5 mx-36 sm:mx-10">
             <div class="productlist grid grid-cols-4 gap-5 sm:grid-cols-2 " id="productlist">
                 <ProductCard v-for="(product, index) in paginatedItems" :key="index" :product="product"/>
             </div>
@@ -20,11 +21,12 @@
 <script>
 import axios from 'axios'
 import NavBar from '@/components/NavBar.vue'
+import Loader from '@/components/LoaderImage.vue'
 import ProductCard from '@/components/ProductCard.vue'
-import { setPage } from '@/mixins';
+import { setPage,loader } from '@/mixins';
 export default {
   name: "ProductListing",
-   mixins:[setPage],
+   mixins:[setPage,loader],
   data()
   {
       return{
@@ -37,6 +39,7 @@ export default {
   },
   components: {
     NavBar,
+    Loader,
     ProductCard,
   },
   methods:{
@@ -53,16 +56,28 @@ export default {
         window.location.href = url;
     },
 
-  },
-  created()
-  {
-      axios.get('/products')
+    loadData () {
+      this.showLoader();
+      setTimeout(() => {
+        axios.get('/products')
       .then(({data}) => {
           this.productList = data.products
           this.displayProductList()
           this.setupPagination()
       })
       .catch(error => console.log(error))
+        this.hideLoader();
+      }, 5000);
+    },
+    refreshData () {
+      this.productLists = [];
+      this.loadData();
+    }
+
+  },
+  created()
+  {
+     this.loadData();
   }
 };
 </script>
