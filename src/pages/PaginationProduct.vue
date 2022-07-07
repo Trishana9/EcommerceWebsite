@@ -2,7 +2,7 @@
 <section>
     <NavBar/>
     <main>
-		<div class="mt-28 mx-36 sm:mx-10">
+		<div class="mt-10 mx-36 sm:mx-10">
             <div class="productlist grid grid-cols-4 gap-5 sm:grid-cols-2 " id="productlist">
                 <ProductCard v-for="(product, index) in paginatedItems" :key="index" :product="product"/>
             </div>

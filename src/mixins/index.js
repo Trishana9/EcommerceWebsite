@@ -16,7 +16,24 @@ const setPage = {
     }
 }
 
+const loader = {
+    data: () => {
+        return {
+          loaderActive: false,
+        }
+      },
+      methods: {
+        showLoader () {
+          this.loaderActive = true;
+        },
+        hideLoader () {
+          this.loaderActive = false;
+        },
+      }
+}
+
 export{
     calculateDiscount,
-    setPage
+    setPage,
+    loader
 }

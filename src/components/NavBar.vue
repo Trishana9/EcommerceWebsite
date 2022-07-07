@@ -1,6 +1,6 @@
 <template>
-    <nav class="">
-		<div class="fixed inset-0 overflow-hidden flex justify-between items-center px-36 h-20 bg-emerald-100  shadow-md mb-10 sm:px-10">
+    <nav class="sticky top-0">
+		<div class=" flex justify-between items-center px-36 h-20 bg-emerald-100  shadow-md mb-10 sm:px-10">
             <div>
                 <p class="font-pacifico text-3xl">YourChoice</p>
             </div>

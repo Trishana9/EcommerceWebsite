@@ -1,8 +1,9 @@
 <template>
-    <NavBar/>
-    <main class="flex justify-center">
+    <section>
+        <nav-bar/>
+        <main class="flex justify-center">
        
-		<div id="details" class="details p-5 flex mt-28 w-[900px] border sm:flex-col sm:mx-44">
+		<div id="details" class="details p-5 flex mt-10 w-[900px] border sm:flex-col sm:mx-44">
             <div class="relative mx-5">
                 <div>
                     <div class="flex">
@@ -35,6 +36,7 @@
             </div>
         </div>
 	</main>
+    </section>
 </template>
 
 <script>
