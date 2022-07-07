@@ -19,7 +19,7 @@
 
                 <star-rating :rating="productList.rating" :read-only="true" :increment="0.01" star-size="25"></star-rating>
 
-                <p class="font-bold text-emerald-500 text-xl mt-5">Rs.{{calculateDiscoutedAmount()}}</p>
+                <p class="font-bold text-emerald-500 text-xl mt-5">Rs.{{calculateDiscoutedAmount(productList)}}</p>
 
                 <div class="flex">
                     <p class="text-gray-500 mr-3 line-through text-sm">Rs.{{productList.price}}</p>
@@ -39,12 +39,16 @@
 
 <script>
 import axios from 'axios'
-import NavBar from '../components/NavBar.vue'
-import SwiperCard from '../components/SwiperCard.vue'
+import NavBar from '@/components/NavBar.vue'
+import SwiperCard from '@/components/SwiperCard.vue'
 import {useRoute} from 'vue-router';
 import StarRating from 'vue-star-rating'
+
+import {calculateDiscount} from '../mixins'
+
 export default {
     name: "ProductDetail",
+    mixins:[calculateDiscount],
     data()
     {
         return{
@@ -56,11 +60,7 @@ export default {
         StarRating,
         SwiperCard,
     },
-    methods:{
-      calculateDiscoutedAmount(){
-          return (this.productList.price-((this.productList.price*this.productList.discountPercentage)/100)).toFixed(2)
-      },
-    },
+
     created(){
         let id =useRoute().params.id
         axios.get(`/products/${id}`)
