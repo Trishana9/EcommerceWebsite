@@ -16,15 +16,32 @@ export default({
         }
     },
     props:{
-       productImages: {},
+       productImages: {
+            required: true,
+            type: Array
+       },
     },
     methods:{
      prev(){
-          (this.currentSrc <= this.productImages.length - 1) ? (this.currentSrc==0? this.currentSrc = this.productImages.length-1 : this.currentSrc--) : this.currentSrc = this.productImages.length-2;
+          if(this.currentSrc <= (this.productImages.length - 1)) { 
+              if(this.currentSrc==0) {
+                  this.currentSrc = this.productImages.length-1
+                  } 
+              else{
+                  this.currentSrc--
+                } 
+            }
+          else{ 
+              this.currentSrc = this.productImages.length-2;
+              }
       },
       next(){
-          (this.currentSrc <= this.productImages.length - this.currentSrc) ? this.currentSrc++ : this.currentSrc = 0;
-      }
+          if(this.currentSrc <= (this.productImages.length - this.currentSrc)) { 
+              this.currentSrc++
+              }
+         else{
+             this.currentSrc = 0;
+            }      }
     }
 })
 </script>

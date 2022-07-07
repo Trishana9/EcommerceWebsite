@@ -20,10 +20,14 @@
 <script>
 import axios from 'axios'
 import {useRoute} from 'vue-router';
-import NavBar from '../components/NavBar.vue'
-import ProductCard from '../components/ProductCard.vue'
+import NavBar from '@/components/NavBar.vue'
+import ProductCard from '@/components/ProductCard.vue'
+
+import {setPage} from '../mixins'
+
 export default {
   name: "ProductListing",
+   mixins:[setPage],
   data()
   {
       return{
@@ -43,11 +47,7 @@ export default {
         let start = this.perPage * currentPage;
         let end = start + this.perPage;
         this.paginatedItems =  this.productList.slice(start, end);
-    },
-
-    setupPagination(){
-        this.pageCount = Math.ceil(this.productList.length / this.perPage);
-    },
+    },    
 
     paginationButton(page){
         this.currentPage=page;
@@ -59,7 +59,6 @@ export default {
   created()
   {
      let currentPage =useRoute().params.pageid-1
-     console.log(currentPage)
       axios.get('/products')
       .then(({data}) => {
           this.productList = data.products

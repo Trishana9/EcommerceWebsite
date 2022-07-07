@@ -19,10 +19,12 @@
 </template>
 <script>
 import axios from 'axios'
-import NavBar from '../components/NavBar.vue'
-import ProductCard from '../components/ProductCard.vue'
+import NavBar from '@/components/NavBar.vue'
+import ProductCard from '@/components/ProductCard.vue'
+import { setPage } from '@/mixins';
 export default {
   name: "ProductListing",
+   mixins:[setPage],
   data()
   {
       return{
@@ -43,10 +45,6 @@ export default {
         let start = this.perPage * this.currentPage;
         let end = start + this.perPage;
         this.paginatedItems =  this.productList.slice(start, end);
-    },
-
-    setupPagination(){
-        this.pageCount = Math.ceil(this.productList.length / this.perPage);
     },
 
     paginationButton(page){
