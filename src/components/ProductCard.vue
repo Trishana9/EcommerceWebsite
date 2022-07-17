@@ -51,7 +51,7 @@ export default {
     },
     paginationButton(page) {
       this.currentPage = page + 1;
-      const url = `/?page=${this.currentPage}`;
+      const url = `?page=${this.currentPage}`;
       window.location.href = url;
     },
 
