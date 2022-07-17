@@ -1,7 +1,7 @@
 import {createWebHistory,createRouter} from 'vue-router'
 import ProductListing from './pages/ProductListing.vue';
 import ProductDetail from './pages/ProductDetail.vue';
-import Productpagination from './pages/PaginationProduct.vue';
+// import Productpagination from './pages/PaginationProduct.vue';
 
 
 const routes=[
@@ -11,13 +11,8 @@ const routes=[
         component: ProductListing
     },
     {
-        name: 'Pagination',
-        path:'/:pageid',
-        component: Productpagination
-    },
-    {
         name: 'ProductDetail',
-        path:'/productdetail/:id',
+        path:'/:id',
         component: ProductDetail
     },
    
