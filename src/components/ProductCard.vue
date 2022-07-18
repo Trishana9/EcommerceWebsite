@@ -1,37 +1,82 @@
 <template>
-    <router-link :to="{ name: 'ProductDetail', params: { id: product.id }}">
-            <div class="border flex flex-col justify-center py-8 cursor-pointer">
-                <div class="flex justify-center items-center">
-                   <img :src="product.thumbnail" @error="$event.target.src=product.images[0]" class="h-64 w-80">
-                </div>
-                <div class="px-10">
-                    <p>{{product.title}}</p>                            
-                    <p class="font-bold text-emerald-500">Rs.{{calculateDiscoutedAmount(product)}}</p>
-                    <div class="flex">
-                       <p class="text-gray-400 mr-3 line-through text-sm">{{product.price}}</p>
-                        <p class="text-sm">-{{product.discountPercentage}}%</p>
-                    </div>
-                </div>
-            </div>
-            </router-link>
+  <div>
+    <LoaderImage v-if="loading" message="Please wait 5 seconds" />
+    <div class="productlist grid grid-cols-4 gap-5 sm:grid-cols-2">
+      <div v-for="(product, index) in paginatedItems" :key="index">
+        <router-link
+          :to="{ name: 'ProductDetail', params: { id: product.id } }"
+        >
+          <slot name="productdetail" :product="product"></slot>
+        </router-link>
+      </div>
+    </div>
+    <div class="pagination flex float-right my-3" id="pagination">
+      <div v-for="(pageNumber, index) in pageCount" :key="index">
+        <button
+          class="bg-gray-300 mx-2 h-10 w-10 hover:bg-green-300"
+          @click="paginationButton(index)"
+        >
+          {{ pageNumber }}
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 <script >
-import {calculateDiscount} from '../mixins'
-export default({
-    mixins:[calculateDiscount],
-    props:{
-       product: {
-           required: true,
-           type: Object
-       },
+import axios from "axios";
+import { setPage } from "@/mixins";
+import { useRoute } from "vue-router";
+import LoaderImage from "@/components/LoaderImage.vue";
+const PER_PAGE = 12
+export default {
+  mixins: [setPage],
+  data() {
+    return {
+      productList: [],
+      perPage: PER_PAGE,
+      paginatedItems: [],
+      pageCount: 0,
+      loading: false,
+    };
+  },
+  components: {
+    LoaderImage,
+  },
+  methods: {
+    displayProductList(currentPage) {
+      currentPage = currentPage - 1;
+      let start = this.perPage * currentPage;
+      let end = start + this.perPage;
+      this.paginatedItems = this.productList.slice(start, end);
     },
-    methods:{
-    
-    displayDetail(product){
-        const url = "/productdetail/"+product.id;
-        window.location.href = url;
+    paginationButton(page) {
+      this.currentPage = page + 1;
+      const url = `?page=${this.currentPage}`;
+      window.location.href = url;
+    },
 
-            }
+    loadData() {
+      this.loading = true;
+
+      let currentPage = useRoute().query.page;
+      if (!currentPage) {
+        currentPage = 1;
       }
-})
+      axios
+        .get("/products")
+        .then(({ data }) => {
+          this.productList = data.products;
+          this.displayProductList(currentPage);
+          this.setupPagination();
+        })
+        .catch((error) => console.log(error))
+        .finally(() => {
+          this.loading = false;
+        });
+    },
+  },
+  created() {
+    this.loadData();
+  },
+};
 </script>

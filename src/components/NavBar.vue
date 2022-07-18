@@ -6,7 +6,7 @@
             </div>
             <div class="">
                 <ul>
-                    <li class="inline-block mx-5 cursor-pointer font-bold hover:text-gray-600  sm:hidden md:hidden"><router-link to="/productdetail">Home</router-link></li>
+                    <li class="inline-block mx-5 cursor-pointer font-bold hover:text-gray-600  sm:hidden md:hidden"><router-link to="/">Home</router-link></li>
                     <li class="inline-block mx-5 cursor-pointer hover:text-gray-600 font-bold  sm:hidden md:hidden"><a>Shop</a></li>
                     <li class="inline-block mx-5 cursor-pointer font-bold hover:text-gray-600  sm:hidden md:hidden"><a>About</a></li>
                     <li class="inline-block mx-5 cursor-pointer font-bold hover:text-gray-600  sm:hidden md:hidden" ><a>Contact</a></li>

@@ -12,28 +12,16 @@ const setPage = {
     methods:{
         setupPagination(){
             this.pageCount = Math.ceil(this.productList.length / this.perPage);
+            if(this.pageCount == 1){
+                this.pageCount=0
+            }
         },
     }
 }
 
-const loader = {
-    data: () => {
-        return {
-          loaderActive: false,
-        }
-      },
-      methods: {
-        showLoader () {
-          this.loaderActive = true;
-        },
-        hideLoader () {
-          this.loaderActive = false;
-        },
-      }
-}
 
 export{
     calculateDiscount,
     setPage,
-    loader
+    
 }
